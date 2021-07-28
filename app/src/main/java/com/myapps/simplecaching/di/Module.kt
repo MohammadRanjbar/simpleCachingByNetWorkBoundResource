@@ -1,7 +1,10 @@
 package com.myapps.simplecaching.di
 
 
+import android.app.Application
+import androidx.room.Room
 import com.myapps.simplecaching.api.RestaurantApi
+import com.myapps.simplecaching.data.RestaurantDataBase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,6 +24,12 @@ object Module {
 
     @Provides
     @Singleton
-    fun provideApi(retrofit: Retrofit):RestaurantApi =
+    fun provideApi(retrofit: Retrofit): RestaurantApi =
         retrofit.create(RestaurantApi::class.java)
+
+
+    @Provides
+    @Singleton
+    fun provideDataBase(app: Application): RestaurantDataBase =
+        Room.databaseBuilder(app, RestaurantDataBase::class.java, "restaurantDb").build()
 }
